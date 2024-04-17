@@ -14,13 +14,13 @@ const API_BASE = process.env.REACT_APP_API_BASE;
 function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
   const COURSES_API = `${API_BASE}/api/courses`;
-  useEffect(() => {
-    const findAllCourses = async () => {
-      const response = await axios.get(COURSES_API);
-      setCourses(response.data);
-    };
-    findAllCourses();
-  }, []);
+  // useEffect(() => {
+  //   const findAllCourses = async () => {
+  //     const response = await axios.get(COURSES_API);
+  //     setCourses(response.data);
+  //   };
+  //   findAllCourses();
+  // }, []);
 
 
 

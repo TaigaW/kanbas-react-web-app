@@ -5,10 +5,6 @@ export default function Profile() {
   const [profile, setProfile] = useState({ username: "", password: "", 
     firstName: "", lastName: "", dob: "", email: "", role: "USER" });
   const navigate = useNavigate();
-  const fetchProfile = async () => {
-    const account = await client.profile();
-    setProfile(account);
-  };
   const save = async () => {
     await client.updateUser(profile);
   };
@@ -16,12 +12,14 @@ export default function Profile() {
     await client.signout();
     navigate("/Kanbas/Account/Signin");
   };
+  // const fetchProfile = async () => {
+  //   const account = await client.profile();
+  //   setProfile(account);
+  // };
+  // useEffect(() => {
+  //   fetchProfile();
+  // }, []);
 
-  
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
   return (
     <div>
       <h1>Profile</h1>
