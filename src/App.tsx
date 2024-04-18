@@ -1,22 +1,40 @@
-
-
 import Labs from "./Labs";
 import HelloWorld from "./Labs/a3/HelloWorld";
 import Kanbas from "./Kanbas";
+import QuizDetailEditor from './Kanbas/Quizzes/QuizDetailEditor';
+import QuizDetails from './Kanbas/Quizzes/QuizDetails';
+import QuizList from './Kanbas/Quizzes/QuizList';
 import {HashRouter} from "react-router-dom";
-import {Routes, Route, Navigate} from "react-router";
+//import {Routes, Route, Navigate} from "react-router";
+import './App.css'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+// import QuizDetailsScreen from './Kanbas/Quizzes/QuizDetails';
+// import QuizListScreen from './Kanbas/Quizzes/QuizList';
+
 function App() {
   return (
-    <HashRouter>
-      <div>
-        <Routes>
-          <Route path="/"         element={<Navigate to="/Labs"/>}/>
-          <Route path="/Labs/*"   element={<Labs/>}/>
-          <Route path="/Kanbas/*" element={<Kanbas/>}/>
-          <Route path="/hello"    element={<HelloWorld/>}/>
-        </Routes>
-      </div>
-    </HashRouter>
+    <Router>
+      <Routes>
+        <Route path="/quiz-details/:quizId" element={<QuizDetails />} />
+        <Route path="/quiz-list" element={<QuizList />} />
+        <Route path="/edit-quiz/:quizId" element={<QuizDetailEditor />} />
+        <Route path="/" element={<Navigate to="/quiz-list" replace />} />
+      </Routes>
+    </Router>
+    // <div className="App">
+    //         <QuizDetailEditor />
+    // </div>
+    // <HashRouter>
+    //   <div>
+    //     <Routes>
+    //       <Route path="/"         element={<Navigate to="/Labs"/>}/>
+    //       <Route path="/Labs/*"   element={<Labs/>}/>
+    //       <Route path="/Kanbas/*" element={<Kanbas/>}/>
+    //       <Route path="/hello"    element={<HelloWorld/>}/>
+    //     </Routes>
+    //   </div>
+    // </HashRouter>
 );}
 
 export default App;
