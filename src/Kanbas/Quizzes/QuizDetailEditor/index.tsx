@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { saveQuiz, saveAndPublishQuiz } from '../reducer';
-import { findQuizByName, createQuiz } from '../client';
+import { setQuiz, saveQuiz, saveAndPublishQuiz, addQuiz } from '../reducer';
+import { findQuizzesForCourse, updateQuiz } from '../client';
+import { useSelector, useDispatch } from "react-redux";
+import { KanbasState } from "../../store";
+import * as client from '../client';
 
-const QuizDetailEditor: React.FC = () => {
+//const QuizDetailEditor: React.FC = () => {
+function QuizDetailEditor() {
+  const { courseId } = useParams();
+  const dispatch = useDispatch();
+  const quiz = useSelector((state: KanbasState) => 
+    state.quizzesReducer.quiz);
+
+  useEffect(() => {
+    findQuizzesForCourse(courseId)
+      .then((quizzes) =>
+        dispatch(setQuiz(quizzes))
+    );
+  }, [courseId]);
+
   const navigate = useNavigate();
   const [quizTitle, setQuizTitle] = useState('');
   const [timeLimit, setTimeLimit] = useState('');
@@ -16,34 +32,13 @@ const QuizDetailEditor: React.FC = () => {
   const [availableFromDate, setAvailableFromDate] = useState<Date | null>(null);
   const [untilDate, setUntilDate] = useState<Date | null>(null);
 
-  const handleSave = async () => {
-    const quizData = {
-      title: quizTitle,
-      // other quiz details
-    };
   
-    // try {
-    //   const response = await fetch('http://localhost:4000/api/quizzes', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(quizData)
-    //   });
-  
-    //   if (!response.ok) {
-    //     throw new Error('Network response was not ok');
-    //   }
-  
-    //   const savedQuiz = await response.json();
-    //   navigate(`/quiz-details/${savedQuiz._id}`); 
-    // } catch (error) {
-    //   console.error("Failed to save the quiz", error);
-    //   // Handle errors here
-    // }
 
-    navigate(`/quiz-details/:quizId`); // Replace [quizId] with actual quiz ID
+  const handleSave = async () => {
+    const status = await client.updateQuiz(quiz);
+    dispatch(await updateQuiz(quiz));
   };
+
 
   const handleSaveAndPublish = () => {
     // Code to save and publish the quiz

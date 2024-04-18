@@ -11,4 +11,11 @@ const QuizList: React.FC = () => {
     )
 }
 
+// DELETING DONE HERE
+// const handleAddQuiz = () => {
+//   createQuiz(courseId, quiz).then((quiz) => {
+//     dispatch(addQuiz(quiz));
+//   });
+// };
+
 export default QuizList;
