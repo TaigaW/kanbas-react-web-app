@@ -5,23 +5,30 @@ import QuizDetailEditor from './Kanbas/Quizzes/QuizDetailEditor';
 import QuizDetails from './Kanbas/Quizzes/QuizDetails';
 import QuizList from './Kanbas/Quizzes/QuizList';
 import {HashRouter} from "react-router-dom";
+import QuestionForm from "./Kanbas/Quizzes/QuizQuestions/QuizQuestionEditor";
 //import {Routes, Route, Navigate} from "react-router";
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Provider } from "react-redux";
+import store from "./Kanbas/store";
+
 
 // import QuizDetailsScreen from './Kanbas/Quizzes/QuizDetails';
 // import QuizListScreen from './Kanbas/Quizzes/QuizList';
 
 function App() {
   return (
+    <Provider store={store}>
     <Router>
       <Routes>
-        <Route path="/quiz-details/:quizId" element={<QuizDetails />} />
+        <Route path="/questionForm" element={<QuestionForm/>}/>
+        <Route path="/quiz-details/:quizId" element={<QuizDetails />} /> 
         <Route path="/quiz-list" element={<QuizList />} />
         <Route path="/edit-quiz/:quizId" element={<QuizDetailEditor />} />
         <Route path="/" element={<Navigate to="/quiz-list" replace />} />
       </Routes>
     </Router>
+    </Provider>
     // <div className="App">
     //         <QuizDetailEditor />
     // </div>

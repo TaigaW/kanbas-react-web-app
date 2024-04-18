@@ -15,12 +15,14 @@ function QuizDetailEditor() {
   const quiz = useSelector((state: KanbasState) => 
     state.quizzesReducer.quiz);
 
-  useEffect(() => {
-    findQuizzesForCourse(courseId)
-      .then((quizzes) =>
-        dispatch(setQuiz(quizzes))
-    );
-  }, [courseId]);
+
+  // TODO - THIS IS CAUSING IT TO CRASH
+  // useEffect(() => {
+  //   findQuizzesForCourse(courseId)
+  //     .then((quizzes) =>
+  //       dispatch(setQuiz(quizzes))
+  //   );
+  // }, [courseId]);
 
   const navigate = useNavigate();
   const [quizTitle, setQuizTitle] = useState('');
