@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const QuizList: React.FC = () => {
+function QuizList(){
     return (
         <div className="quiz-details">
           <div className="tabs">
@@ -11,11 +11,11 @@ const QuizList: React.FC = () => {
     )
 }
 
+export default QuizList;
+
 // DELETING DONE HERE
 // const handleAddQuiz = () => {
 //   createQuiz(courseId, quiz).then((quiz) => {
 //     dispatch(addQuiz(quiz));
 //   });
 // };
-
-export default QuizList;

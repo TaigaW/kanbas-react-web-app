@@ -6,40 +6,58 @@ import { setQuiz, saveQuiz, saveAndPublishQuiz, addQuiz } from '../reducer';
 import { findQuizzesForCourse, updateQuiz } from '../client';
 import { useSelector, useDispatch } from "react-redux";
 import { KanbasState } from "../../store";
+import { quizzes } from '../../Database';
 import * as client from '../client';
+import { parse } from 'path';
 
 //const QuizDetailEditor: React.FC = () => {
 function QuizDetailEditor() {
-  const { courseId } = useParams();
+  //const { courseId } = useParams();
+  const { quizId } = useParams();
+
   const dispatch = useDispatch();
   const quiz = useSelector((state: KanbasState) => 
     state.quizzesReducer.quiz);
 
-
-  // TODO - THIS IS CAUSING IT TO CRASH
-  // useEffect(() => {
-  //   findQuizzesForCourse(courseId)
-  //     .then((quizzes) =>
-  //       dispatch(setQuiz(quizzes))
-  //   );
-  // }, [courseId]);
-
   const navigate = useNavigate();
-  const [quizTitle, setQuizTitle] = useState('');
-  const [timeLimit, setTimeLimit] = useState('');
+  const [quizName, setQuizName] = useState('');
+  const [quizDescription, setQuizDescription] = useState('');
+  const [quizType, setQuizType] = useState('Graded Quiz');
+  const [assignmentGroup, setAssignmentGroup] = useState('Quiz');
   const [shuffleAnswers, setShuffleAnswers] = useState(true);
+  const [minutes, setMinutes] = useState("0");
+  const [timeLimit, setTimeLimit] = useState(false);
   const [allowMultipleAttempts, setAllowMultipleAttempts] = useState(false);
-  const [timeLimitEnabled, setTimeLimitEnabled] = useState(false);
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [availableFromDate, setAvailableFromDate] = useState<Date | null>(null);
   const [untilDate, setUntilDate] = useState<Date | null>(null);
+  const [published, setPublished] = useState(false);
+  const [quizPoints, setQuizPoints] = useState("0");
 
-  
+  const [quizzesList, setQuizList] = useState<any[]>(quizzes);
+  const [selectedQuiz, setSelectedQuiz] = useState(quizzesList[0]);
+   
 
-  const handleSave = async () => {
-    const status = await client.updateQuiz(quiz);
-    dispatch(await updateQuiz(quiz));
+
+  // const handleSave = async () => {
+  //   const status = await client.updateQuiz(quiz);
+  //   dispatch(updateQuiz(quiz));
+  // };
+
+
+  const updateQuiz = () => {
+    const newModuleList = quizzesList.map((q) => {
+      if (q._id === quiz._id) {
+        return quiz;
+      } else {
+        return q;
+      }
+    });
+    setQuizList(newModuleList);
+
+    navigate(`/quiz-details/${quiz._id}`)
   };
+
 
 
   const handleSaveAndPublish = () => {
@@ -53,18 +71,73 @@ function QuizDetailEditor() {
     navigate('/quiz-list');
   };
 
+  const parseDateOrNull = (dateString: string) => {
+    const date = Date.parse(dateString);
+    return isNaN(date) ? null : new Date(date);
+  };
+
+
+  useEffect(() => {
+    const fetchQuizDetails = async () => {
+      try {
+        const response = await client.getQuizById(quizId); // Implement this function to fetch quiz by ID
+        console.log("hi response")
+        console.log(response)
+        if (response) {
+          setQuiz(response);
+          // Update the form's state with the fetched quiz details
+          setQuizName(response.name);
+          setQuizDescription(response.description)
+          setQuizType(response.quizType)
+          setTimeLimit(response.timeLimit);
+          setShuffleAnswers(response.shuffleAnswers);
+          setAllowMultipleAttempts(response.allowMultipleAttempts);
+          // ... set other state from response as needed ...
+          setDueDate(parseDateOrNull(response.due))
+          setAvailableFromDate(parseDateOrNull(response.availableFrom))
+          setUntilDate(parseDateOrNull(response.until))
+
+
+          //setDueDate(new Date(response.due)); // Use the Date constructor if your date is not already a Date object
+          //setAvailableFromDate(new Date(response.availableFrom));
+          //setUntilDate(new Date(response.until));
+        }
+      } catch (error) {
+        console.error('Error fetching quiz details:', error);
+        // Handle error, e.g., by showing an error message or redirecting
+      }
+    }
+  if (quizId) {
+    fetchQuizDetails();
+  }
+  }
+  , [quizId, client]
+);
+
+
+
+  // for quizList?
+  // useEffect(() => {
+  //   findQuizzesForCourse(courseId)
+  //     .then((quizzes) =>
+  //       dispatch(setQuiz(quizzes))
+  //   );
+  // }, [courseId]);
+
+
   return (
     <div className="quiz-details">
       <div className="tabs">
         <button className="tab">Details</button>
         <button className="tab">Questions</button>
       </div>
+
       <input
         type="text"
         className="quiz-title-input"
         placeholder="Unnamed Quiz"
-        value={quizTitle}
-        onChange={(e) => setQuizTitle(e.target.value)}
+        value={quizName || ""}
+        onChange={(e) => setQuizName(e.target.value)}
       />
       <div className="quiz-instructions">
         Quiz Instructions: Edit View Insert Format Tools Table
@@ -72,17 +145,18 @@ function QuizDetailEditor() {
       <textarea className="quiz-description-input" />
 
       <label htmlFor="quiz-type-select">Quiz Type</label>
+
       <select
         id="quiz-type-select"
         className="quiz-type-select"
-        defaultValue="Graded Quiz"
+        value={quizType} // Controlled component
+        onChange={(e) => setQuizType(e.target.value)}
       >
         <option value="Graded Quiz">Graded Quiz</option>
         <option value="Practice Quiz">Practice Quiz</option>
         <option value="Graded Survey">Graded Survey</option>
         <option value="Ungraded Survey">Ungraded Survey</option>
       </select>
-
       <label htmlFor="assignment-group-select">Assignment Group</label>
       <select
         id="assignment-group-select"
@@ -107,18 +181,18 @@ function QuizDetailEditor() {
         <label>
           <input
             type="checkbox"
-            checked={timeLimitEnabled}
-            onChange={() => setTimeLimitEnabled(!timeLimitEnabled)}
+            checked={timeLimit}
+            onChange={() => setTimeLimit(!timeLimit)}
           />
           Time Limit
         </label>
-        {timeLimitEnabled && (
+        {timeLimit && (
           <input
             type="text"
             className="time-limit-input"
             placeholder="Minutes"
-            value={timeLimit}
-            onChange={(e) => setTimeLimit(e.target.value)}
+            value={minutes || ""}
+            onChange={(e) => setMinutes(e.target.value)}
           />
         )}
         <label>
@@ -167,7 +241,7 @@ function QuizDetailEditor() {
       <div className="buttons-container">
         <button className="button cancel-button" onClick={handleCancel}>Cancel</button>
         <button className="button save-publish-button" onClick={handleSaveAndPublish}>Save & Publish</button>
-        <button className="button save-button" onClick={handleSave}>Save</button>
+        <button className="button save-button" onClick={updateQuiz}>Save</button>
       </div>
     </div>
   );

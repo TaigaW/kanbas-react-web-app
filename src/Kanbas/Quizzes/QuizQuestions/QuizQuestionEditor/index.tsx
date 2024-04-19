@@ -1,101 +1,3 @@
-// import React, { useState } from 'react';
-// import './multipleChoiceStyle.css';
-// import { FaTrashAlt } from 'react-icons/fa';
-
-// type Answer = {
-//   text: string;
-//   isCorrect: boolean;
-// };
-
-// function MultipleChoice () {
-//   const [questionTitle, setQuestionTitle] = useState('');
-//   const [questionText, setQuestionText] = useState('');
-//   const [answers, setAnswers] = useState<Answer[]>([
-//     { text: '', isCorrect: false },
-//     { text: '', isCorrect: false },
-//     { text: '', isCorrect: false },
-//   ]);
-
-//   const deleteAnswer = (index: number) => {
-//     const newAnswers = answers.filter((_, i) => i !== index);
-//     setAnswers(newAnswers);
-//   };
-
-//   const handleAnswerChange = (text: string, index: number) => {
-//     const newAnswers = answers.map((answer, i) =>
-//       i === index ? { ...answer, text } : answer
-//     );
-//     setAnswers(newAnswers);
-//   };
-
-//   const handleCorrectAnswerChange = (index: number) => {
-//     const newAnswers = answers.map((answer, i) =>
-//       ({ ...answer, isCorrect: i === index })
-//     );
-//     setAnswers(newAnswers);
-//   };
-
-//   const addAnswer = () => {
-//     setAnswers([...answers, { text: '', isCorrect: false }]);
-//   };
-
-//   const handleSubmit = () => {
-//     // Submit logic here
-//     console.log({ questionTitle, questionText, answers });
-//   };
-
-//   return (
-//     <div className="question-form">
-//       <input
-//         type="text"
-//         placeholder="Question Title"
-//         value={questionTitle}
-//         onChange={(e) => setQuestionTitle(e.target.value)}
-//       />
-
-//       <select defaultValue="Multiple Choice">
-//         <option value="Multiple Choice">Multiple Choice</option>
-//         <option value="True/False">True/False</option>
-//         <option value="Fill in the Blank">Fill in the Blank</option>
-//       </select>
-//       <textarea
-//         placeholder="Enter your question"
-//         value={questionText}
-//         onChange={(e) => setQuestionText(e.target.value)}
-//       />
-
-//         <div className="answers-section">
-//         {answers.map((answer, index) => (
-//           <div key={index} className="answer-input">
-//             <input
-//               type="checkbox"
-//               checked={answer.isCorrect}
-//               onChange={() => handleCorrectAnswerChange(index)}
-//             />
-//             <input
-//               type="text"
-//               value={answer.text}
-//               onChange={(e) => handleAnswerChange(e.target.value, index)}
-//             />
-//             <button onClick={() => deleteAnswer(index)} className="delete-answer-button">
-//                 <FaTrashAlt /> 
-//             </button>
-//           </div>
-//         ))}
-//       </div>
-
-
-//       <button onClick={addAnswer}>+ Add Another Answer</button>
-//       <button onClick={handleSubmit}>Update Question</button>
-      
-//     </div>
-//   );
-// };
-
-// export default MultipleChoice;
-
-
-
 import React, { useState } from 'react';
 import './questionStyle.css';
 import { FaTrashAlt } from 'react-icons/fa';
@@ -113,6 +15,7 @@ function QuestionForm() {
     { text: 'True', isCorrect: false },
     { text: 'False', isCorrect: false },
   ]);
+  const [points, setPoints] = useState('');
 
     const handleQuestionTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setQuestionType(event.target.value);
@@ -162,13 +65,27 @@ function QuestionForm() {
 
 
   return (
+    
     <div className="question-form">
+      <div className="form-header">
       <input
         type="text"
         placeholder="Question Title"
         value={questionTitle}
         onChange={(e) => setQuestionTitle(e.target.value)}
+        className="question-title-input"
       />
+      <div className="points-input-container">
+        <label htmlFor="points">Points:</label>
+        <input
+          type="text"
+          id="points"
+          value={points}
+          onChange={(e) => setPoints(e.target.value)}
+          className="points-input"
+        />
+      </div>
+    </div>
 
       <select value={questionType} onChange={handleQuestionTypeChange}>
         <option value="Multiple Choice">Multiple Choice</option>
@@ -240,7 +157,8 @@ function QuestionForm() {
           <button onClick={addAnswer} className="add-answer-button">+ Add Another Answer</button>
         </div>
       )}
-      <button onClick={handleSubmit}>Update Question</button>
+      <button className="cancel-button">Cancel</button>
+      <button onClick={handleSubmit} className="update-question-button">Update Question</button>
     </div>
   );
 };
