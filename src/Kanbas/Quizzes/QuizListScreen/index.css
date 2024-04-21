@@ -1,0 +1,33 @@
+.context-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    min-width: 120px;
+    z-index: 1;
+  }
+  
+  .context-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .context-menu ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+  
+  .context-menu-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  

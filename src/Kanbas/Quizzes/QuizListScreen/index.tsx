@@ -1,5 +1,5 @@
 import QuizList from "./QuizList";
-function Quizzes() {
+function QList() {
     return (
         <div className="container">
             <div className="row">
@@ -11,4 +11,4 @@ function Quizzes() {
     </div>
     );
 }
-export default Quizzes;
+export default QList;
