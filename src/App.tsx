@@ -3,7 +3,7 @@ import HelloWorld from "./Labs/a3/HelloWorld";
 import Kanbas from "./Kanbas";
 import QuizDetailEditor from './Kanbas/Quizzes/QuizDetailEditor';
 import QuizDetails from './Kanbas/Quizzes/QuizDetails';
-import QuizList from './Kanbas/Quizzes/QuizList';
+import QList from './Kanbas/Quizzes/QuizListScreen';
 import {HashRouter} from "react-router-dom";
 import QuestionForm from "./Kanbas/Quizzes/QuizQuestions/QuizQuestionEditor";
 //import {Routes, Route, Navigate} from "react-router";
@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route path="/questionForm" element={<QuestionForm/>}/>
         <Route path="/quiz-details/:quizId" element={<QuizDetails />} /> 
-        <Route path="/quiz-list" element={<QuizList />} />
+        <Route path="/quiz-list" element={<QList />} />
         <Route path="/edit-quiz/:quizId" element={<QuizDetailEditor />} />
         <Route path="/" element={<Navigate to="/quiz-list" replace />} />
       </Routes>
