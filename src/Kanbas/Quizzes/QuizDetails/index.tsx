@@ -30,8 +30,10 @@ function QuizDetails() {
     setQuizDetails({ ...quizDetails, published: !quizDetails.published });
   };
 
-  const handlePreviewClick = () => {
+  const handlePreviewClick = (quiz : any) => {
     // Navigate to Quiz Preview screen
+    const newQuiz = { ...quiz, _id: new Date().getTime().toString() };
+    navigate(`/quiz-preview/${newQuiz._id}`);
   };
 
   const handleEditClick = (quiz: any) => {
