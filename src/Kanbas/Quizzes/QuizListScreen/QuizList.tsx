@@ -47,7 +47,8 @@ function QuizList() {
   };
 
   const toggleContextMenu = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    quizId: string
   ): void => {
     event.preventDefault();
     // Show context menu
@@ -56,6 +57,7 @@ function QuizList() {
       contextMenu.style.display = "block";
       contextMenu.style.left = `${event.clientX}px`;
       contextMenu.style.top = `${event.clientY}px`;
+      setSelectedQuiz(quizId); // Set the selected quiz when the context menu is toggled
     }
   };
 
@@ -92,36 +94,13 @@ function QuizList() {
   return (
     <ul className="list-group">
       <li className="list-group-item">
-        <button style={{ backgroundColor: "red" }} onClick={
-            addQuiz
-            }>
+        <button
+          className="button Quiz+-button"
+          style={{ backgroundColor: "red" }}
+          onClick={addQuiz}
+        >
           +Quiz
         </button>
-        <button
-          style={{ backgroundColor: "white" }}
-          onClick={toggleContextMenu}
-        >
-          ...
-        </button>
-        <div
-          id="context-menu"
-          className="context-menu"
-          onClick={hideContextMenu}
-        >
-          <ul>
-            <li onClick={() => deleteQuiz(selectedQuiz._id)}>Delete</li>
-            <li onClick={() => publishQuiz(selectedQuiz._id)}>
-              {selectedQuiz.published ? "Unpublish" : "Publish"}
-            </li>
-            <li onClick={() => sortQuizzes("name")}>Sort by Name</li>
-            <li onClick={() => sortQuizzes("due")}>Sort by Due Date</li>
-            <li onClick={() => sortQuizzes("availability")}>
-              Sort by Available Date
-            </li>
-            <li onClick={() => copyQuiz(selectedQuiz._id)}>Copy</li>
-            {/* Add more options as needed */}
-          </ul>
-        </div>
       </li>
       <ul className="list-group">
         {/* Render quizzes from quizzesList */}
@@ -132,13 +111,45 @@ function QuizList() {
             onClick={() => setSelectedQuiz(quiz)}
           >
             {/* Render quiz details */}
-            <div>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <BsRocket style={{ marginRight: "10px" }} />
               <strong>{quiz.name}</strong>
               <p>
                 Not Available Until: {quiz.availability}
                 Due: {quiz.due}
               </p>
+              {/* Render the checkmark or crossed out circle */}
+              {quiz.published ? (
+                <span style={{ color: "green", marginLeft: "10px" }}>✔️</span>
+              ) : (
+                <span style={{ color: "red", marginLeft: "10px" }}>❌</span>
+              )}
+              <button
+                className="button ...-button"
+                style={{ backgroundColor: "white" }}
+                onClick={(event) => toggleContextMenu(event, quiz._id)}
+              >
+                ...
+              </button>
+              <div
+                id="context-menu"
+                className="context-menu"
+                onClick={hideContextMenu}
+              >
+                <ul>
+                  <li onClick={() => deleteQuiz(quiz._id)}>Delete</li>
+                  <li onClick={() => publishQuiz(quiz._id)}>
+                    {quiz.published ? "Unpublish" : "Publish"}
+                  </li>
+                  <li onClick={() => sortQuizzes("name")}>Sort by Name</li>
+                  <li onClick={() => sortQuizzes("due")}>Sort by Due Date</li>
+                  <li onClick={() => sortQuizzes("availability")}>
+                    Sort by Available Date
+                  </li>
+                  <li onClick={() => copyQuiz(quiz._id)}>Copy</li>
+                  {/* Add more options as needed */}
+                </ul>
+              </div>
             </div>
           </li>
         ))}
