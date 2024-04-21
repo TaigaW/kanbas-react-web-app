@@ -4,7 +4,6 @@
 .container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: flex-start; /* Changed to flex-start */
     height: 100vh;
   }
@@ -14,6 +13,7 @@
     display: flex;
     justify-content: flex-end; /* Align buttons to the top right */
     margin-top: 20px; /* Add margin to separate from heading */
+    float: right;
   }
   
   .publish-button {

@@ -22,6 +22,7 @@ function QuizDetails() {
     availableDate: "",
     untilDate: "",
     published: false,
+    for: "Everyone"
   });
   const navigate = useNavigate();
 
@@ -45,7 +46,6 @@ function QuizDetails() {
 
   return (
     <div className="container">
-      {/* Add container class */}
       <h2>Quiz Details</h2>
       <div className="buttons-container">
         <button
@@ -75,25 +75,27 @@ function QuizDetails() {
         <p><strong>Webcam Required </strong> {quizDetails.webcamRequired}</p>
         <p><strong>Lock Questions After Answering </strong> {quizDetails.lockQuestionsAfterAnswering}</p>
       </div>
-  
-      <div className="due-for-container">
-        <div>
-          <p><strong>Due</strong></p>
-          <p>{quizDetails.dueDate}</p>
-        </div>
-        <div>
-          <p><strong>For</strong></p>
-          <p>{quizDetails.assignmentGroup}</p>
-        </div>
-        <div>
-          <p><strong>Available From</strong></p>
-          <p>{quizDetails.availableDate}</p>
-        </div>
-        <div>
-          <p><strong>Until</strong></p>
-          <p>{quizDetails.untilDate}</p>
-        </div>
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Due</th>
+              <th>For</th>
+              <th>Available From</th>
+              <th>Until</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{quizDetails.dueDate}</td>
+              <td>{quizDetails.for}</td>
+              <td>{quizDetails.availableDate}</td>
+              <td>{quizDetails.untilDate}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+    
     </div>
   );
 }
