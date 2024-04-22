@@ -9,6 +9,8 @@ import { KanbasState } from "../../store";
 import { quizzes } from '../../Database';
 import * as client from '../client';
 import { parse } from 'path';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 //const QuizDetailEditor: React.FC = () => {
 function QuizDetailEditor() {
@@ -21,6 +23,7 @@ function QuizDetailEditor() {
 
   const navigate = useNavigate();
   const [quizName, setQuizName] = useState('');
+  const [course, setCourse] = useState('')
   const [quizDescription, setQuizDescription] = useState('');
   const [quizType, setQuizType] = useState('Graded Quiz');
   const [assignmentGroup, setAssignmentGroup] = useState('Quiz');
@@ -28,11 +31,18 @@ function QuizDetailEditor() {
   const [minutes, setMinutes] = useState("0");
   const [timeLimit, setTimeLimit] = useState(false);
   const [allowMultipleAttempts, setAllowMultipleAttempts] = useState(false);
+  const [forWho, setForWho] = useState('everyone')
   const [dueDate, setDueDate] = useState<Date | null>(null);
-  const [availableFromDate, setAvailableFromDate] = useState<Date | null>(null);
+  const [available, setAvailable] = useState<Date | null>(null);
   const [untilDate, setUntilDate] = useState<Date | null>(null);
   const [published, setPublished] = useState(false);
   const [quizPoints, setQuizPoints] = useState("0");
+  const [accessCode, setAccessCode] = useState('');
+  const [showCorrect, setShowCorrect] = useState(false);
+  const [oneQuestion, setOneQuestion] = useState(true);
+  const [webCam, setWebCam] = useState(false);
+  const [lockAfter, setLockAfter] = useState(false);
+
 
   const [quizzesList, setQuizList] = useState<any[]>(quizzes);
   const [selectedQuiz, setSelectedQuiz] = useState(quizzesList[0]);
@@ -43,38 +53,131 @@ function QuizDetailEditor() {
   //   const status = await client.updateQuiz(quiz);
   //   dispatch(updateQuiz(quiz));
   // };
+//   "_id": "Q101",
+//   "name": "Introduction to Rocket Propulsion",
+//   "description": "Basic principles of rocket propulsion and rocket engines.",
+//   "course": "RS101",
+//   "quizType": "Graded Survey",
+//   "shuffleAnswers": false,
+//   "assignmentGroup": "Quiz",
+//   "timeLimit": false,
+//   "minutes": 0,
+//   "allowMultipleAttemps": false,
+//   "due": "2024-04-21",
+//   "published": true,
+//   "showCorrect": false,
+//   "accessCode": "",
+//   "oneQuestion": true,
+//   "webCam": false,
+//   "lockAfter": false,
+//   "for": "everyone",
+//   "available": "2024-04-20",
+//   "until": "2024-04-22"
+
+// },
 
 
-  const updateQuiz = () => {
-    const newModuleList = quizzesList.map((q) => {
-      if (q._id === quiz._id) {
-        return quiz;
-      } else {
-        return q;
-      }
-    });
-    setQuizList(newModuleList);
+  const updateQuiz = async () => {
+    const newQuizData = {
+      _id: quizId,
+      name: quizName, // Set default data or use a form/modal for input
+      description: quizDescription,
+      course: course,
+      quizType: quizType,
+      shuffleAnswers: shuffleAnswers,
+      assignmentGroup: assignmentGroup,
+      timeLimit: timeLimit,
+      minutes: minutes,
+      allowMultipleAttempts: allowMultipleAttempts,
+      due: dueDate,
+      published: published,
+      showCorrect: showCorrect,
+      accessCode: accessCode,
+      oneQuestion: oneQuestion,
+      webCam: webCam,
+      lockAfter: lockAfter,
+      for: forWho,
+      available: available,
+      until: untilDate
+    };
+    const response = await client.updateQuiz(newQuizData)
+    console.log(newQuizData.available)
+    console.log(newQuizData.until)
+    console.log(newQuizData.due)
 
-    navigate(`/quiz-details/${quiz._id}`)
+    // navigate(`/question-list/${quizId}`)
+    // const newQuizList = quizzesList.map((q) => {
+    //   if (q._id === quiz._id) {
+    //     return quiz;
+    //   } else {
+    //     return q;
+    //   }
+    // });
+    // setQuizList(newQuizList);
+    // //console.log(quiz._id)
+    // console.log(newQuizList)
+
+    navigate(`/quiz-details/${quizId}`)
   };
 
 
 
-  const handleSaveAndPublish = () => {
-    // Code to save and publish the quiz
-    // ...
+  const handleSaveAndPublish = async () => {
+    const newQuizData = {
+      _id: quizId,
+      name: quizName, // Set default data or use a form/modal for input
+      description: quizDescription,
+      course: course,
+      quizType: quizType,
+      shuffleAnswers: shuffleAnswers,
+      assignmentGroup: assignmentGroup,
+      timeLimit: timeLimit,
+      minutes: minutes,
+      allowMultipleAttempts: allowMultipleAttempts,
+      due: dueDate,
+      published: true,
+      showCorrect: showCorrect,
+      accessCode: accessCode,
+      oneQuestion: oneQuestion,
+      webCam: webCam,
+      lockAfter: lockAfter,
+      for: forWho,
+      available: available,
+      until: untilDate
+    };
+    const response = await client.updateQuiz(newQuizData)
+    // navigate(`/question-list/${quizId}`)
+    // const newQuizList = quizzesList.map((q) => {
+    //   if (q._id === quiz._id) {
+    //     return quiz;
+    //   } else {
+    //     return q;
+    //   }
+    // });
+    // setQuizList(newQuizList);
+    // //console.log(quiz._id)
+    // console.log(newQuizList)
 
-    navigate('/quiz-list');
+
+
+    navigate(`/quiz-list/${course}`);
   };
 
   const handleCancel = () => {
-    navigate('/quiz-list');
+    navigate(`/quiz-list/${course}`);
   };
 
   const parseDateOrNull = (dateString: string) => {
     const date = Date.parse(dateString);
     return isNaN(date) ? null : new Date(date);
   };
+
+
+  const viewQuestionsEditor = async() => {
+    navigate(`/question-list/${quizId}`)
+  }
+
+
 
 
   useEffect(() => {
@@ -84,23 +187,40 @@ function QuizDetailEditor() {
         console.log("hi response")
         console.log(response)
         if (response) {
-          setQuiz(response);
+          console.log("in if")
+          setQuiz(response[0]);
           // Update the form's state with the fetched quiz details
-          setQuizName(response.name);
-          setQuizDescription(response.description)
-          setQuizType(response.quizType)
-          setTimeLimit(response.timeLimit);
-          setShuffleAnswers(response.shuffleAnswers);
-          setAllowMultipleAttempts(response.allowMultipleAttempts);
+          setQuizName(response[0].name);
+          setCourse(response[0].course)
+          console.log("quiz name")
+          console.log(response[0].name)
+          setQuizDescription(response[0].description)
+          setQuizType(response[0].quizType)
+          setTimeLimit(response[0].timeLimit);
+          setShuffleAnswers(response[0].shuffleAnswers);
+          setAllowMultipleAttempts(response[0].allowMultipleAttempts);
           // ... set other state from response as needed ...
-          setDueDate(parseDateOrNull(response.due))
-          setAvailableFromDate(parseDateOrNull(response.availableFrom))
-          setUntilDate(parseDateOrNull(response.until))
-
-
-          //setDueDate(new Date(response.due)); // Use the Date constructor if your date is not already a Date object
-          //setAvailableFromDate(new Date(response.availableFrom));
-          //setUntilDate(new Date(response.until));
+          setDueDate(parseDateOrNull(response[0].due))
+          setAvailable(parseDateOrNull(response[0].available))
+          setUntilDate(parseDateOrNull(response[0].until))
+          setAccessCode(response[0].accessCode)
+          setOneQuestion(response[0].oneQuestion)
+          setWebCam(response[0].webCam)
+          setLockAfter(response[0].lockAfter)
+          setForWho(response[0].for)
+        }
+        else {
+          setQuizName('');
+          setQuizDescription('');
+          setQuizType('Graded Quiz');
+          setTimeLimit(false);
+          setShuffleAnswers(false);
+          setAllowMultipleAttempts(false);
+          setDueDate(null);
+          setAvailable(null);
+          setUntilDate(null);
+          setMinutes("0");
+          setQuizPoints("0");
         }
       } catch (error) {
         console.error('Error fetching quiz details:', error);
@@ -115,21 +235,11 @@ function QuizDetailEditor() {
 );
 
 
-
-  // for quizList?
-  // useEffect(() => {
-  //   findQuizzesForCourse(courseId)
-  //     .then((quizzes) =>
-  //       dispatch(setQuiz(quizzes))
-  //   );
-  // }, [courseId]);
-
-
   return (
     <div className="quiz-details">
       <div className="tabs">
         <button className="tab">Details</button>
-        <button className="tab">Questions</button>
+        <button className="tab" onClick={viewQuestionsEditor}>Questions</button>
       </div>
 
       <input
@@ -142,7 +252,21 @@ function QuizDetailEditor() {
       <div className="quiz-instructions">
         Quiz Instructions: Edit View Insert Format Tools Table
       </div>
-      <textarea className="quiz-description-input" />
+      <ReactQuill
+        className='quiz-description-input'
+        value={quizDescription || ""}
+        onChange={setQuizDescription}
+      />
+      {/* <div className="quiz-instructions">
+        Quiz Instructions: Edit View Insert Format Tools Table
+      </div>
+      <input
+        type="textarea"
+        className='quiz-description-input'
+        value={quizDescription || ""}
+        onChange={(e) => setQuizDescription(e.target.value)}
+      /> */}
+    
 
       <label htmlFor="quiz-type-select">Quiz Type</label>
 
@@ -203,10 +327,56 @@ function QuizDetailEditor() {
           />
           Allow Multiple Attempts
         </label>
+
+        <label>
+          Access Code
+          <input
+            type="text"
+            value={accessCode}
+            onChange={() => setAccessCode(accessCode)}
+          />
+        </label>
+
+        <label>
+          One Question at a Time
+          <input
+            type="checkbox"
+            checked={oneQuestion}
+            onChange={() => setOneQuestion(!oneQuestion)}
+          />
+        </label>
+
+        <label>
+          Show correct answer
+          <input
+            type="checkbox"
+            checked={showCorrect}
+            onChange={() => setShowCorrect(!showCorrect)}
+          />
+        </label>
+
+        <label>
+          WebCam
+          <input
+            type="checkbox"
+            checked={webCam}
+            onChange={() => setWebCam(!webCam)}
+          />
+        </label>
+        <label>
+          Lock After Answer
+          <input
+            type="checkbox"
+            checked={lockAfter}
+            onChange={() => setLockAfter(!lockAfter)}
+          />
+        </label>
       </div>
       <div className="assignment-section" style={{ border: '1px solid #ccc', padding: '10px', marginTop: '20px' }}>
-        <label>Assign to</label>
-        <input type="text" placeholder="Everyone" />
+        <label>Assign to
+          
+        </label>
+        <input type="text" value={forWho} onChange={() => setForWho(forWho)}/>
 
         <label>Due</label>
         <DatePicker
@@ -219,8 +389,8 @@ function QuizDetailEditor() {
           <div>
             <label>Available from</label>
             <DatePicker
-              selected={availableFromDate}
-              onChange={(date: Date) => setAvailableFromDate(date)}
+              selected={available}
+              onChange={(date: Date) => setAvailable(date)}
               className="date-picker"
             />
           </div>

@@ -1,0 +1,241 @@
+/* .buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    margin-right: 10px; 
+  }
+  
+  .context-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    min-width: 120px;
+    z-index: 1;
+    right: 0; 
+  }
+  
+  .dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background: grey;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-container .dropbtn:active + .dropdown-content,
+.dropdown-container .dropbtn:focus + .dropdown-content,
+.dropdown-container .dropdown-content:hover {
+  display: block;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown-content button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-content button:hover {background-color: #f1f1f1}
+
+.quiz-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .quiz-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+  }
+  
+  .quiz-info > * {
+    margin: 0; 
+  }
+  
+  .quiz-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; 
+    height: 20px; 
+    border-radius: 50%;
+    background-color: #4CAF50;
+
+  }
+  
+  .dropdown {
+    position: relative;
+  }
+  
+  .quiz-list-container {
+    padding: 20px;
+  }
+  
+  .quiz-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; 
+  }
+  
+  .quiz-list-header h1 {
+    margin: 0;
+    color: #333; 
+  }
+  
+  .add-quiz-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+   */
+
+  
+
+   .quiz-list-container {
+    padding: 20px;
+    max-width: 800px; 
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+  }
+  
+  .quiz-info h2 {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  .quiz-info p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .quiz-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .quiz-actions span {
+    font-size: 1.5rem;
+  }
+
+  
+  .add-quiz-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+
+  .quiz-item:hover {
+    background-color: #f9f9f9;
+  }
+  
+
+
+
+.quiz-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+
+  }
+  
+
+  .dropbtn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+  }
+  
+
+  .dropdown-content {
+    display: none;
+    position: absolute; 
+    right: 0; 
+    top: 100%; 
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 100; 
+  }
+  
+  .dropdown-container:hover .dropdown-content,
+  .dropdown-container:focus-within .dropdown-content {
+    display: block;
+  }
+  
+
+  .dropdown-content a,
+  .dropdown-content button {
+    padding: 12px 16px;
+    color: black;
+    text-decoration: none;
+    display: block;
+    background: none;
+    border: none;
+    text-align: left;
+  }
+  
+
+  .dropdown-content a:hover,
+  .dropdown-content button:hover {
+    background-color: #f1f1f1;
+  }
+  
+
+  

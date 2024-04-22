@@ -1,0 +1,115 @@
+/* QuizQuestionList.css */
+.quiz-details {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab {
+    background-color: #e0e0e0;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tab:hover {
+    background-color: #d4d4d4;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Aligns list items horizontally */
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.question-content {
+    flex-grow: 1; /* Allows the question content to take up most of the space */
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(133, 133, 133); /* Sets the color of the trash icon */
+    font-size: 24px; /* Adjust size as needed */
+    padding: 5px 10px;
+}
+
+.delete-button:hover {
+    color: rgb(192, 192, 192); /* Darker red on hover for better interaction feedback */
+}
+
+
+h1 {
+    color: #222;
+}
+
+h2 {
+    margin-top: 0;
+    color: #555;
+}
+
+p {
+    color: #666;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-right: 10px;
+    background-color: #606060;
+    color: white;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #505050;
+}
+
+.fa-trash-alt {
+    color: red;
+    margin-left: 20px;
+}
+
+.add-button, .group-button, .find-button {
+    background-color: #4a4a4a;
+    color: #fff;
+    border: 2px solid transparent;
+}
+
+.add-button:hover, .group-button:hover, .find-button:hover {
+    background-color: #3a3a3a;
+}
+
+.quiz-details {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+}

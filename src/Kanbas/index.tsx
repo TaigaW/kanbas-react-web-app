@@ -9,6 +9,8 @@ import store from "./store";
 import { Provider } from "react-redux";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import QuizList from "./Quizzes/QuizList";
+import QuizSection from "./Quizzes";
 
 const API_BASE = process.env.REACT_APP_API_BASE;
 function Kanbas() {
@@ -55,6 +57,8 @@ function Kanbas() {
     //   })
     // );
   };
+
+
   
 
 
@@ -68,15 +72,10 @@ function Kanbas() {
           <Route path="/Account/*" element={<Account />} />
 
           <Route path="Dashboard" element={
-            <Dashboard
-                courses={courses}
-                course={course}
-                setCourse={setCourse}
-                addNewCourse={addNewCourse}
-                deleteCourse={deleteCourse}
-                updateCourse={updateCourse}/>
+            <Dashboard/>
           } />
           <Route path="Courses/:courseId/*" element={<Courses/>} />
+          <Route path="/quizzes/:courseId/*" element={<QuizSection />} />
         </Routes>
       </div>
     </div>

@@ -1,0 +1,87 @@
+/* QuizDetails.css */
+
+.quiz-details-container {
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quiz-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .status-indicator {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .published {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .unpublished {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .quiz-actions button {
+    margin-left: 10px;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .quiz-info {
+    line-height: 1.5;
+  }
+  
+  .quiz-detail {
+    margin: 10px 0;
+  }
+  
+  .due-info {
+    margin-top: 20px;
+    font-style: italic;
+  }
+  
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Changed to flex-start */
+    height: 100vh;
+  }
+
+  /* Style publish button */
+  .buttons-container {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the top right */
+    margin-top: 20px; /* Add margin to separate from heading */
+  }
+
+  .publish-button {
+    background-color: #ccc; /* Default color */
+  }
+
+  .publish-button.published {
+    background-color: green; /* Green color when published */
+  }
+
+  /* Grey bar */
+  .grey-bar {
+    width: 100%;
+    height: 3px;
+    background-color: #e6e6e6;
+  }

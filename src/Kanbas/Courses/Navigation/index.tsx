@@ -1,15 +1,32 @@
 import { Link, useLocation } from "react-router-dom";
 import "./index.css"; // feel free to use the CSS from previous assignments
-function CourseNavigation() {
+
+interface CourseNavigationProps {
+  courseId?: string; // The '?' makes it an optional property
+}
+
+function CourseNavigation({ courseId }: CourseNavigationProps) {
   const links = ["Home", "Modules", "Piazza", "Zoom Meetings", "Grades", "Assignments", "Quizzes", "People", "Panopto Video", "Discussions"];
   const { pathname } = useLocation();
+
+  const linkPath = (linkName: string) => {
+    if (linkName === "Quizzes") {
+      const link = `/quiz-list/${courseId}`
+      return link; 
+    }
+    return `/${linkName.toLowerCase().replace(/ /g, "-")}/${courseId}`;
+  }
+
   return (
     <ul className="wd-navigation">
-      {links.map((link, index) => (
-        <li key={index} className={pathname.includes(link) ? "wd-active" : ""}>
-          <Link to={link}>{link}</Link>
-        </li>
-      ))}
+      {links.map((link, index) => {
+        const path = linkPath(link);
+        return (
+          <li key={index} className={pathname.includes(path) ? "wd-active" : ""}>
+            <Link to={path}>{link}</Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }

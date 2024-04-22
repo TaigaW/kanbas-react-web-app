@@ -6,12 +6,14 @@ export default function Signup() {
     const [user, setUser] = useState({ username: "", password: "" });
     const navigate = useNavigate();
     const signup = async () => {
-    try {
-        await client.signup(user);
-        navigate("/Kanbas/Account/Profile");
-    } catch (err: any) {
-        setError(err.response.data.message);
-    }
+        try {
+            console.log("fdsafdsa")
+            console.log(user)
+            await client.signup(user);
+            navigate(`/Kanbas/Account/Profile/${user.username}`);
+        } catch (err: any) {
+            setError(err.response.data.message);
+        }
     };
     return (
     <div>

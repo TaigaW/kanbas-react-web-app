@@ -1,39 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as db from "../Database";
+import * as client from "../Courses/Modules/client"
+
+
+interface Course { 
+  _id: string, 
+  name: string, 
+  number: string, 
+  startDate: string,
+  endDate: string, 
+  image: string  
+}
 
 function Dashboard(
-  { courses, course, setCourse, addNewCourse,
-    deleteCourse, updateCourse }: {
-    courses: any[]; course: any; setCourse: (course: any) => void;
-    addNewCourse: () => void; deleteCourse: (course: any) => void;
-    updateCourse: () => void; })
+  )
    {
-  // const [courses, setCourses] = useState(db.courses);
-  // const [course, setCourse] = useState({
-  //   _id: "0", name: "New Course", number: "New Number",
-  //   startDate: "2023-09-10", endDate: "2023-12-15",
-  //   image: "/images/reactjs.jpg"
-  // });
-  // const addNewCourse = () => {
-  //   const newCourse = { ...course,
-  //                       _id: new Date().getTime().toString() };
-  //   setCourses([...courses, { ...course, ...newCourse }]);
-  // };
-  // const deleteCourse = (courseId: string) => {
-  //   setCourses(courses.filter((course) => course._id !== courseId));
-  // };
-  // const updateCourse = () => {
-  //   setCourses(
-  //     courses.map((c) => {
-  //       if (c._id === course._id) {
-  //         return course;
-  //       } else {
-  //         return c;
-  //       }
-  //     })
-  //   );
-  // };
+    console.log("fdsafdsa")
+    const [courses, setCourses] = useState<Course[]>([]);
+    const [course, setCourse] = useState({
+      _id: "1234", name: "New Course", number: "New Number",
+      startDate: "2023-09-10", endDate: "2023-12-15",
+    });
+    
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        console.log("fdsafdsafdsafdasfa")
+        const fetchedCourses = await client.findCourses();
+        console.log(fetchedCourses) 
+        setCourses(fetchedCourses);
+        
+        console.log(fetchCourses)
+      } catch (error) {
+        console.error('Error fetching course details:', error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+
+  const deleteCourse = (id: any) => {
+    const newCourses = courses.filter((_, i) => i !== id);
+    setCourses(newCourses);
+};
+
+  const addNewCourse = (course: any) => {
+    setCourses([...courses, course]);
+  };
+
 
 
   return (
@@ -48,7 +65,9 @@ function Dashboard(
              onChange={(e) => setCourse({ ...course, startDate: e.target.value }) }/>
       <input value={course.endDate} className="form-control" type="date"
              onChange={(e) => setCourse({ ...course, endDate: e.target.value }) } />
-      <button onClick={updateCourse} >
+      <button 
+      // onClick={updateCourse} 
+      >
         Update
       </button>
       <button onClick={addNewCourse} >

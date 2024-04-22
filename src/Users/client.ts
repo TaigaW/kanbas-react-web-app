@@ -13,7 +13,9 @@ export const profile = async () => {
     return response.data;
 };
 export const updateUser = async (user: any) => {
-    const response = await axios.put(`${USERS_API}/${user._id}`, user);
+    const response = await axios.put(`${USERS_API}/update/${user._id}`, user);
+    console.log('response')
+    console.log(response)
     return response.data;
 };
 
@@ -21,6 +23,11 @@ export const findAllUsers = async () => {
     const response = await axios.get(`${USERS_API}`);
     return response.data;
 };
+
+export const getInfoByUsername = async (username: any) => {
+    const response = await axios.get(`${USERS_API}/info/${username}`);
+    return response.data;
+}
 
 export const createUser = async (user: any) => {
     const response = await axios.post(`${USERS_API}`, user);
@@ -34,7 +41,12 @@ export const deleteUser = async (user: any) => {
 };
 
 export const signup = async (user: any) => {
+    console.log("hello")
     const response = await axios.post(`${USERS_API}/signup`, user);
+    console.log("user")
+    console.log(user)
+    console.log("response")
+    console.log(response)
     return response.data;
 };
 
