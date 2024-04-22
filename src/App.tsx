@@ -28,7 +28,7 @@ function App() {
         <Route path="/quiz-details/:quizId" element={<QuizDetails />} /> 
         <Route path="/quiz-list/:cid" element={<QuizList />} />
         <Route path="/edit-quiz/:quizId" element={<QuizDetailEditor />} />
-        <Route path="/" element={<Navigate to="/quiz-list" replace />} />
+        <Route path="/" element={<Navigate to="/users/authenticate" replace />} />
         <Route path="/question-list/:qid" element={<QuizQuestionList/>}/>
         <Route path="/quiz-preview/:qid" element={<QuizPreview/>}/>
         <Route path="/Kanbas/*" element={<Kanbas/>}/>
