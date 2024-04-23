@@ -145,6 +145,14 @@ function QuizDetailEditor() {
     navigate(`/question-list/${quizId}`)
   }
 
+  const handleAccessCodeChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setAccessCode(event.target.value);
+  };
+
+  const handleForWhoChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setForWho(event.target.value)
+  }
+
 
 
 
@@ -295,8 +303,8 @@ function QuizDetailEditor() {
           Access Code
           <input
             type="text"
-            value={accessCode}
-            onChange={() => setAccessCode(accessCode)}
+            value={accessCode || ''}
+            onChange={handleAccessCodeChange}
           />
         </label>
 
@@ -339,7 +347,12 @@ function QuizDetailEditor() {
         <label>Assign to
           
         </label>
-        <input type="text" value={forWho} onChange={() => setForWho(forWho)}/>
+        <input 
+          type="text" 
+          value={forWho} 
+          onChange={handleForWhoChange}
+          // onChange={() => setForWho(forWho)}
+          />
 
         <label>Due</label>
         <DatePicker
