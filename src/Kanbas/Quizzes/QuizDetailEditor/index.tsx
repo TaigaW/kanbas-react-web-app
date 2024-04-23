@@ -43,40 +43,20 @@ function QuizDetailEditor() {
   const [webCam, setWebCam] = useState(false);
   const [lockAfter, setLockAfter] = useState(false);
 
+  const [points, setPoints] = useState(0);
+
 
   const [quizzesList, setQuizList] = useState<any[]>(quizzes);
   const [selectedQuiz, setSelectedQuiz] = useState(quizzesList[0]);
+
+
+
+  const calcPoints = async (quizId: any) => {
+    const questions = await client.findQuestionsForQuiz(quizId)
+    const totalPoints = questions.reduce((acc: any, question: any) => acc + question.points, 0);
+    return totalPoints
+  }
    
-
-
-  // const handleSave = async () => {
-  //   const status = await client.updateQuiz(quiz);
-  //   dispatch(updateQuiz(quiz));
-  // };
-//   "_id": "Q101",
-//   "name": "Introduction to Rocket Propulsion",
-//   "description": "Basic principles of rocket propulsion and rocket engines.",
-//   "course": "RS101",
-//   "quizType": "Graded Survey",
-//   "shuffleAnswers": false,
-//   "assignmentGroup": "Quiz",
-//   "timeLimit": false,
-//   "minutes": 0,
-//   "allowMultipleAttemps": false,
-//   "due": "2024-04-21",
-//   "published": true,
-//   "showCorrect": false,
-//   "accessCode": "",
-//   "oneQuestion": true,
-//   "webCam": false,
-//   "lockAfter": false,
-//   "for": "everyone",
-//   "available": "2024-04-20",
-//   "until": "2024-04-22"
-
-// },
-
-
   const updateQuiz = async () => {
     const newQuizData = {
       _id: quizId,
@@ -104,18 +84,6 @@ function QuizDetailEditor() {
     console.log(newQuizData.available)
     console.log(newQuizData.until)
     console.log(newQuizData.due)
-
-    // navigate(`/question-list/${quizId}`)
-    // const newQuizList = quizzesList.map((q) => {
-    //   if (q._id === quiz._id) {
-    //     return quiz;
-    //   } else {
-    //     return q;
-    //   }
-    // });
-    // setQuizList(newQuizList);
-    // //console.log(quiz._id)
-    // console.log(newQuizList)
 
     navigate(`/quiz-details/${quizId}`)
   };
@@ -184,6 +152,8 @@ function QuizDetailEditor() {
     const fetchQuizDetails = async () => {
       try {
         const response = await client.getQuizById(quizId); // Implement this function to fetch quiz by ID
+        const quizPoints = await calcPoints(quizId)
+        setPoints(quizPoints)
         console.log("hi response")
         console.log(response)
         if (response) {
@@ -249,6 +219,9 @@ function QuizDetailEditor() {
         value={quizName || ""}
         onChange={(e) => setQuizName(e.target.value)}
       />
+      <div>
+        <span>{points} points</span>
+      </div>
       <div className="quiz-instructions">
         Quiz Instructions: Edit View Insert Format Tools Table
       </div>
@@ -257,16 +230,6 @@ function QuizDetailEditor() {
         value={quizDescription || ""}
         onChange={setQuizDescription}
       />
-      {/* <div className="quiz-instructions">
-        Quiz Instructions: Edit View Insert Format Tools Table
-      </div>
-      <input
-        type="textarea"
-        className='quiz-description-input'
-        value={quizDescription || ""}
-        onChange={(e) => setQuizDescription(e.target.value)}
-      /> */}
-    
 
       <label htmlFor="quiz-type-select">Quiz Type</label>
 
